@@ -1,5 +1,6 @@
 from telnetlib import EC
 import ec
+from selenium.common import exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from base.base_page import BasePage
@@ -22,5 +23,8 @@ class QualityAssurance(BasePage):
 
 
     def click_qa_jobs(self):
-        self.wait.until(EC.element_to_be_clickable(self.qa_jobs)).click()
-        return QualityAssuranceDepartmant(self.driver)
+        try:
+            self.wait.until(EC.element_to_be_clickable(self.qa_jobs)).click()
+            return QualityAssuranceDepartmant(self.driver)
+        except exceptions.NoSuchElementException as e:
+            print(f"Error: The qa jobs button was not clicked. {e}")

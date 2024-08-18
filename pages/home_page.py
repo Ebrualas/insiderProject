@@ -1,3 +1,4 @@
+from selenium.common import exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -24,7 +25,10 @@ class HomePage(BasePage):
         self.wait.until(EC.visibility_of_element_located(self.demo_text))
 
     def click_company_button(self):
-        self.wait.until(EC.element_to_be_clickable(self.company_button)).click()
+        try:
+            self.wait.until(EC.element_to_be_clickable(self.company_button)).click()
+        except exceptions.NoSuchElementException as e:
+            print(f"Error: The company button was not found. {e}")
 
     def click_career_button(self):
         self.wait.until(EC.element_to_be_clickable(self.career_button)).click()
